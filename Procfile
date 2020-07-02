@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar messanger/target/demo-0.0.1-SNAPSHOT.jar
+web: java $JAVA_OPTS -jar target/messanger-1.0-SNAPSHOT.jar
