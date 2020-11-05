@@ -20,5 +20,4 @@ public class TelegramMessangerTest
     {
         telegramMessanger.sendMessage("hello");
     }
-
 }

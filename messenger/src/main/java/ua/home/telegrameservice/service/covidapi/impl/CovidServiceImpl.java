@@ -1,16 +1,13 @@
 package ua.home.telegrameservice.service.covidapi.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ua.home.telegrameservice.config.consts.covid.CovidConst;
 import ua.home.telegrameservice.model.covid.City;
 import ua.home.telegrameservice.model.covid.Country;
-import ua.home.telegrameservice.model.covid.CountryInfo;
 import ua.home.telegrameservice.service.covidapi.CovidService;
+import ua.home.telegrameservice.utils.rest.RestTemplateUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,15 +17,11 @@ import java.util.Date;
  * @since 2020-11-05
  */
 @Service
-public class CovidServiceImpl implements CovidService
+public class CovidServiceImpl extends RestTemplateUtil implements CovidService
 {
-
-    @Autowired
-    private final RestTemplate restTemplate;
-
     public CovidServiceImpl(RestTemplate restTemplate)
     {
-        this.restTemplate = restTemplate;
+        super(restTemplate);
     }
 
     @Override
@@ -37,32 +30,21 @@ public class CovidServiceImpl implements CovidService
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(CovidConst.DATE_PATTERN);
         final String todayDate = simpleDateFormat.format(new Date());
 
-        ResponseEntity<Country> covidStatusResponse = restTemplate.exchange(
-                String.format(CovidConst.API_COVID_URL, todayDate),
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<Country>()
-                {
-                }
+        return getCityCovidInformation(getDataFromGetApi(
+                        String.format(CovidConst.API_COVID_URL, todayDate),
+                        new ParameterizedTypeReference<Country>(){}
+                    ),
+                    city
         );
-
-        return getCityCovidInformation(covidStatusResponse.getBody(), city);
-
     }
 
     @Override
-    public CountryInfo getCovidInfoForCountry()
+    public Country getCovidInfoForCountry()
     {
-        ResponseEntity<CountryInfo> covidStatusResponse = restTemplate.exchange(
+        return getDataFromGetApi(
                 CovidConst.API_COUNTRY_COVID_URL,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<CountryInfo>()
-                {
-                }
+                new ParameterizedTypeReference<Country>(){}
         );
-
-        return covidStatusResponse.getBody();
     }
 
     private City getCityCovidInformation(final Country countryInformation, final String cityName)

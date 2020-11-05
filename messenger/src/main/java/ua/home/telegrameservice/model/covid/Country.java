@@ -14,4 +14,17 @@ public class Country
 {
     @JsonProperty("ukraine")
     private List<City> cities;
+
+    private String country;
+    private int cases;
+    private int todayCases;
+    private int deaths;
+    private int todayDeaths;
+    private int recovered;
+    private int active;
+    private int critical;
+    private int casesPerOneMillion;
+    private int deathsPerOneMillion;
+    private int totalTests;
+    private int testsPerOneMillion;
 }
