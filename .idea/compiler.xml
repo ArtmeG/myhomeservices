@@ -6,12 +6,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="servicediscoverer" />
         <module name="messanger" />
         <module name="servicediscorer" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="messanger1" target="1.8" />
+      <module name="securedmodule" target="1.8" />
+      <module name="servicediscorer" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -19,6 +22,7 @@
       <module name="messanger" options="-parameters" />
       <module name="messanger1" options="-parameters" />
       <module name="servicediscorer" options="-parameters" />
+      <module name="servicediscoverer" options="-parameters" />
     </option>
   </component>
 </project>
