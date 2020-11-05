@@ -1,7 +1,7 @@
 package ua.home.telegrameservice.bank;
 
 import ua.home.telegrameservice.model.bank.CurrencyDto;
-import ua.home.telegrameservice.service.bankapi.IBankService;
+import ua.home.telegrameservice.service.bankapi.BankService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,15 +18,15 @@ public class BankServiceTest
     private static final Logger LOG = LoggerFactory.getLogger(BankServiceTest.class);
 
     @Autowired
-    IBankService iBankServiceImpl;
+    BankService bankServiceImpl;
 
 
     @Test
     public void getCurrencyExcageRateTest()
     {
-        CurrencyDto currencyDto = iBankServiceImpl.getCurrencyExchangeRateForCoursid(11);
+        CurrencyDto currencyDto = bankServiceImpl.getCurrencyExchangeRateForCoursid(11);
 
-        Assert.assertTrue("Ther currency is null", currencyDto != null);
+        Assert.assertNotNull("Ther currency is null", currencyDto);
 
     }
 
@@ -34,9 +34,9 @@ public class BankServiceTest
     @Test
     public void getCurrencyExcageRateEqaulsToUsaTest()
     {
-        CurrencyDto currencyDto = iBankServiceImpl.getCurrencyExchangeRateForCoursid(11);
+        CurrencyDto currencyDto = bankServiceImpl.getCurrencyExchangeRateForCoursid(11);
 
-        Assert.assertTrue("The currency is not equals to USD", currencyDto.getCcy().equals("USD"));
+        Assert.assertEquals("The currency is not equals to USD", "USD", currencyDto.getCcy());
         LOG.error(currencyDto.toString());
     }
 }

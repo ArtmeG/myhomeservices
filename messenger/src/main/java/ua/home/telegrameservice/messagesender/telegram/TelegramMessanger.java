@@ -38,6 +38,7 @@ public class TelegramMessanger
 
             URL url = new URL(domain + this.messengerConfig.getAPI_TOKEN()
                     + "/sendMessage?chat_id=" + this.messengerConfig.getCHAT_ID()
+                    + "&parse_mode=HTML"
                     + "&text=" + message
             );
             URLConnection conn = url.openConnection();

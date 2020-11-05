@@ -22,9 +22,9 @@ public class City
     private int suspicion;
     private double lat;
     private double lng;
-    private int delta_confirmed;
-    private int delta_deaths;
-    private int delta_recovered;
-    private int delta_existing;
-    private int delta_suspicion;
+    private int deltaConfirmed;
+    private int deltaDeaths;
+    private int deltaRecovered;
+    private int deltaExisting;
+    private int deltaSuspicion;
 }
