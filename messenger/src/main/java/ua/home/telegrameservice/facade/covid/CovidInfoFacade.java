@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ua.home.telegrameservice.config.consts.covid.CovidConst;
 import ua.home.telegrameservice.messagesender.telegram.TelegramMessanger;
 import ua.home.telegrameservice.model.covid.City;
+import ua.home.telegrameservice.model.covid.CountryInfo;
 import ua.home.telegrameservice.service.covidapi.CovidService;
 
 import java.text.MessageFormat;
@@ -27,15 +28,28 @@ public class CovidInfoFacade
 
     public void getCovidInfo()
     {
-        final City cheCity = covidService.getGovCovidInfoForCity(CITY_CHERNIGIV);
+        final StringBuilder covidMessageBuilder = new StringBuilder();
 
-        telegramMessanger.sendMessage ( MessageFormat.format(
-                CovidConst.COVID_MESSAGE_TEMPLATE,
+        final City cheCity = covidService.getGovCovidInfoForCity(CITY_CHERNIGIV);
+        final CountryInfo countryInfo = covidService.getCovidInfoForCountry();
+
+        covidMessageBuilder.append(MessageFormat.format(
+                CovidConst.COVID_CITY_MESSAGE_TEMPLATE,
                 CITY_CHERNIGIV,
                 cheCity.getConfirmed(), cheCity.getDelta_confirmed(),
                 cheCity.getDeaths(), cheCity.getDelta_deaths(),
                 cheCity.getRecovered(), cheCity.getDelta_recovered()
-                ));
+        ));
+
+        covidMessageBuilder.append(MessageFormat.format(
+                CovidConst.COVID_COUNTRY_MESSAGE_TEMPLATE,
+                countryInfo.getCountry(),
+                countryInfo.getCases(), countryInfo.getTodayCases(),
+                countryInfo.getDeaths(), countryInfo.getTodayDeaths(),
+                countryInfo.getRecovered()
+        ));
+
+        telegramMessanger.sendMessage(covidMessageBuilder.toString());
     }
 
 }

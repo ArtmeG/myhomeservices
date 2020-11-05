@@ -1,6 +1,7 @@
 package ua.home.telegrameservice.service.covidapi;
 
 import ua.home.telegrameservice.model.covid.City;
+import ua.home.telegrameservice.model.covid.CountryInfo;
 
 /**
  * @author azatvornitskiy
@@ -9,4 +10,5 @@ import ua.home.telegrameservice.model.covid.City;
 public interface CovidService
 {
     City getGovCovidInfoForCity(final String city);
+    CountryInfo getCovidInfoForCountry();
 }

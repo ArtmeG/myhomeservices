@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import ua.home.telegrameservice.config.consts.covid.CovidConst;
 import ua.home.telegrameservice.model.covid.City;
 import ua.home.telegrameservice.model.covid.Country;
+import ua.home.telegrameservice.model.covid.CountryInfo;
 import ua.home.telegrameservice.service.covidapi.CovidService;
 
 import java.text.SimpleDateFormat;
@@ -47,6 +48,21 @@ public class CovidServiceImpl implements CovidService
 
         return getCityCovidInformation(covidStatusResponse.getBody(), city);
 
+    }
+
+    @Override
+    public CountryInfo getCovidInfoForCountry()
+    {
+        ResponseEntity<CountryInfo> covidStatusResponse = restTemplate.exchange(
+                CovidConst.API_COUNTRY_COVID_URL,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<CountryInfo>()
+                {
+                }
+        );
+
+        return covidStatusResponse.getBody();
     }
 
     private City getCityCovidInformation(final Country countryInformation, final String cityName)
