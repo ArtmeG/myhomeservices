@@ -1,6 +1,8 @@
 package ua.home.telegrameservice.service.covidapi.impl;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -10,7 +12,6 @@ import ua.home.telegrameservice.model.covid.Country;
 import ua.home.telegrameservice.service.covidapi.CovidService;
 import ua.home.telegrameservice.utils.rest.RestTemplateUtil;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 

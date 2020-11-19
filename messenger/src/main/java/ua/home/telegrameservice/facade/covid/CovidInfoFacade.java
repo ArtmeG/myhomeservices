@@ -34,7 +34,7 @@ public class CovidInfoFacade
         final Country countryInfo = covidService.getCovidInfoForCountry();
 
         covidMessageBuilder.append(MessageFormat.format(
-                CovidConst.COVID_CITY_MESSAGE_TEMPLATE,
+                CovidConst.COVID_CITY_MESSAGE_TEMPLATE_RU,
                 CITY_CHERNIGIV,
                 cheCity.getConfirmed(), cheCity.getDeltaConfirmed(),
                 cheCity.getDeaths(), cheCity.getDeltaDeaths(),
@@ -42,7 +42,7 @@ public class CovidInfoFacade
         ));
 
         covidMessageBuilder.append(MessageFormat.format(
-                CovidConst.COVID_COUNTRY_MESSAGE_TEMPLATE,
+                CovidConst.COVID_COUNTRY_MESSAGE_TEMPLATE_RU,
                 countryInfo.getCountry(),
                 countryInfo.getCases(), countryInfo.getTodayCases(),
                 countryInfo.getDeaths(), countryInfo.getTodayDeaths(),

@@ -20,14 +20,12 @@ import java.util.logging.Logger;
 @Component
 public class TelegramMessanger
 {
-
     private MessengerConfig messengerConfig;
 
     public TelegramMessanger(MessengerConfig messengerConfig)
     {
         this.messengerConfig = messengerConfig;
     }
-
 
     public void sendMessage(String message)
     {

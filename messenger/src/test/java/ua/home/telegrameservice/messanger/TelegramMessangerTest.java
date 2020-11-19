@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
+import java.io.UnsupportedEncodingException;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TelegramMessangerTest
@@ -16,7 +19,7 @@ public class TelegramMessangerTest
     TelegramMessanger telegramMessanger;
 
     @Test
-    public void sendTestMessage()
+    public void sendTestMessage() throws UnsupportedEncodingException
     {
         telegramMessanger.sendMessage("hello");
     }
