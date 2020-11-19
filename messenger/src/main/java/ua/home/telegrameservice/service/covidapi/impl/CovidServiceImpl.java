@@ -1,5 +1,8 @@
 package ua.home.telegrameservice.service.covidapi.impl;
 
+import org.apache.commons.lang.time.DateUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -9,8 +12,10 @@ import ua.home.telegrameservice.model.covid.Country;
 import ua.home.telegrameservice.service.covidapi.CovidService;
 import ua.home.telegrameservice.utils.rest.RestTemplateUtil;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
+
+import static ua.home.telegrameservice.utils.date.DateUtils.getFormattedDate;
 
 /**
  * @author azatvornitskiy
@@ -25,17 +30,22 @@ public class CovidServiceImpl extends RestTemplateUtil implements CovidService
     }
 
     @Override
-    public City getGovCovidInfoForCity(String city)
+    public City getGovCovidInfoForCity(String cityName)
     {
-        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(CovidConst.DATE_PATTERN);
-        final String todayDate = simpleDateFormat.format(new Date());
+        final String todayDate = getFormattedDate(new Date());
 
-        return getCityCovidInformation(getDataFromGetApi(
-                        String.format(CovidConst.API_COVID_URL, todayDate),
-                        new ParameterizedTypeReference<Country>(){}
-                    ),
-                    city
+        final City cityStatistics = getCityCovidInformation(getDataFromGetApi(
+                String.format(CovidConst.API_COVID_URL, todayDate),
+                new ParameterizedTypeReference<Country>()
+                {
+                }
+                ),
+                cityName
         );
+
+        calculateDelta(cityStatistics, cityName);
+
+        return cityStatistics;
     }
 
     @Override
@@ -43,7 +53,9 @@ public class CovidServiceImpl extends RestTemplateUtil implements CovidService
     {
         return getDataFromGetApi(
                 CovidConst.API_COUNTRY_COVID_URL,
-                new ParameterizedTypeReference<Country>(){}
+                new ParameterizedTypeReference<Country>()
+                {
+                }
         );
     }
 
@@ -54,4 +66,45 @@ public class CovidServiceImpl extends RestTemplateUtil implements CovidService
                 .findFirst()
                 .get();
     }
+
+    private void calculateDelta(final City cityStatistics, String cityName)
+    {
+
+        if (Objects.isNull(cityStatistics.getDeltaConfirmed()) || cityStatistics.getDeltaConfirmed().compareTo(0) == 0)
+        {
+            final String yesterdayDay =  getFormattedDate( DateUtils.addDays(new Date(), -1));
+
+            final City cityStatisticsForYesterday = getCityCovidInformation(getDataFromGetApi(
+                    String.format(CovidConst.API_COVID_URL, yesterdayDay),
+                    new ParameterizedTypeReference<Country>()
+                    {
+                    }
+                    ),
+                    cityName
+            );
+
+            if (Objects.nonNull(cityStatisticsForYesterday.getConfirmed()) || cityStatisticsForYesterday.getConfirmed().compareTo(new Integer(0)) != 0)
+            {
+                cityStatistics.setDeltaConfirmed(
+                        cityStatistics.getConfirmed() - cityStatisticsForYesterday.getConfirmed()
+                );
+            }
+
+            if (Objects.nonNull(cityStatisticsForYesterday.getDeaths()) || cityStatisticsForYesterday.getDeaths().compareTo(new Integer(0)) != 0)
+            {
+                cityStatistics.setDeltaDeaths(
+                        cityStatistics.getDeaths() - cityStatisticsForYesterday.getDeaths()
+                );
+            }
+
+            if (Objects.nonNull(cityStatisticsForYesterday.getRecovered()) || cityStatisticsForYesterday.getRecovered().compareTo(new Integer(0)) != 0)
+            {
+                cityStatistics.setDeltaRecovered(
+                        cityStatistics.getRecovered() - cityStatisticsForYesterday.getRecovered()
+                );
+            }
+        }
+
+    }
+
 }

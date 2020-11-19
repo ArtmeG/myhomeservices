@@ -19,7 +19,7 @@ public class SchedulerTask
     @Autowired
     CovidInfoFacade covidInfoFacade;
 
-    @Scheduled(cron = "0 0 8,20 ? * * ")
+    @Scheduled(cron = "0 0 8 ? * * ")
     public void reportCurrentTime()
     {
         try
