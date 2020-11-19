@@ -12,19 +12,19 @@ import lombok.Data;
 public class City
 {
     @JsonProperty
-    private int id;
+    private Integer id;
     private Label label;
-    private int country;
-    private int confirmed;
-    private int deaths;
-    private int recovered;
-    private int existing;
-    private int suspicion;
+    private Integer country;
+    private Integer confirmed;
+    private Integer deaths;
+    private Integer recovered;
+    private Integer existing;
+    private Integer suspicion;
     private double lat;
     private double lng;
-    private int deltaConfirmed;
-    private int deltaDeaths;
-    private int deltaRecovered;
-    private int deltaExisting;
-    private int deltaSuspicion;
+    private Integer deltaConfirmed;
+    private Integer deltaDeaths;
+    private Integer deltaRecovered;
+    private Integer deltaExisting;
+    private Integer deltaSuspicion;
 }
