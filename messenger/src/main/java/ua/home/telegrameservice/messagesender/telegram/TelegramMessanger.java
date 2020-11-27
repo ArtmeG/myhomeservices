@@ -20,14 +20,12 @@ import java.util.logging.Logger;
 @Component
 public class TelegramMessanger
 {
-
     private MessengerConfig messengerConfig;
 
     public TelegramMessanger(MessengerConfig messengerConfig)
     {
         this.messengerConfig = messengerConfig;
     }
-
 
     public void sendMessage(String message)
     {
@@ -38,6 +36,7 @@ public class TelegramMessanger
 
             URL url = new URL(domain + this.messengerConfig.getAPI_TOKEN()
                     + "/sendMessage?chat_id=" + this.messengerConfig.getCHAT_ID()
+                    + "&parse_mode=HTML"
                     + "&text=" + message
             );
             URLConnection conn = url.openConnection();
